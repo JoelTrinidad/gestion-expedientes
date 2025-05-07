@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreExpedienteRequest;
 use App\Http\Requests\UpdateExpedienteRequest;
 use App\Models\Expediente;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ExpedienteController extends Controller
@@ -14,10 +15,9 @@ class ExpedienteController extends Controller
      */
     public function index()
     {
-        $seasonUser = Auth::user();
-        //$seasonUserId =
-        //
-        return view('lista-expedientes');
+        $expedientes = Expediente::All();
+
+        return view('expedientes.index', compact('expedientes'));
     }
 
     /**
@@ -25,8 +25,7 @@ class ExpedienteController extends Controller
      */
     public function create()
     {
-        //
-        dd('hola');
+        return view('expedientes.create');
     }
 
     /**
@@ -34,7 +33,21 @@ class ExpedienteController extends Controller
      */
     public function store(StoreExpedienteRequest $request)
     {
-        //
+        $ultimoNumeroExpediente = Expediente::max('numero_expediente');
+        $numeroExpediente = strval($ultimoNumeroExpediente + 1);
+
+        while (strlen($numeroExpediente) < 5) {
+            $numeroExpediente = '0' . $numeroExpediente;
+        }
+        $expediente = Expediente::create([
+            'numero_expediente' => $numeroExpediente,
+            'asunto' => $request->asunto,
+            'fecha_inicio' => $request->fecha_inicio,
+            'id_estatus' => 1,
+            'id_usuario_registra' => Auth::user()->id,
+        ]);
+
+        return redirect()->route('expedientes.index');
     }
 
     /**
@@ -42,7 +55,7 @@ class ExpedienteController extends Controller
      */
     public function show(Expediente $expediente)
     {
-        //
+        return view('expedientes.show', compact('expediente'));
     }
 
     /**
@@ -50,7 +63,7 @@ class ExpedienteController extends Controller
      */
     public function edit(Expediente $expediente)
     {
-        //
+        return view('expedientes.edit', compact('expediente'));
     }
 
     /**
@@ -58,7 +71,11 @@ class ExpedienteController extends Controller
      */
     public function update(UpdateExpedienteRequest $request, Expediente $expediente)
     {
-        //
+        $expediente->asunto = $request->asunto;
+        $expediente->fecha_inicio = $request->fecha_inicio;
+        $expediente->save();
+
+        return redirect()->route('expedientes.index');
     }
 
     /**
@@ -66,6 +83,10 @@ class ExpedienteController extends Controller
      */
     public function destroy(Expediente $expediente)
     {
-        //
+        $expediente->id_estatus = 2;
+        $expediente->deleted_at = Carbon::now()->format('Y-m-d H:i:s');
+        $expediente->push();
+
+        return redirect()->route('expedientes.index');
     }
 }

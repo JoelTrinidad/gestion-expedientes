@@ -11,6 +11,13 @@ class Expediente extends Model
     /** @use HasFactory<\Database\Factories\ExpedienteFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'numero_expediente', 
+        'asunto', 
+        'fecha_inicio', 
+        'id_estatus', 
+        'id_usuario_registra'];
+
     /**
      * Obtiene el usuario asociado a este expediente.
      */

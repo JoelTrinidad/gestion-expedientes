@@ -11,7 +11,7 @@ class StoreExpedienteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreExpedienteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'asunto' => 'required',
+            'fecha_inicio' => 'required',
         ];
     }
 }
