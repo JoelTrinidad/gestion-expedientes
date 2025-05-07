@@ -17,7 +17,11 @@ class ExpedienteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'numero_expediente' => $this->faker->unique()->randomNumber(5),
+            'asunto' => $this->faker->sentence(),
+            'fecha_inicio' => $this->faker->date(),
+            'id_estatus' => $this->faker->randomElement([1, 2]),
+            'id_usuario_regstra' => $this->faker->randomElement([1, 2]),
         ];
     }
 }
