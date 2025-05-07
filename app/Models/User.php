@@ -54,6 +54,6 @@ class User extends Authenticatable
      */
     public function expedientes(): HasMany
     {
-        return $this->hasMany(Expediente::class);
+        return $this->hasMany(Expediente::class, 'id_usuario_registra', 'id');
     }
 }

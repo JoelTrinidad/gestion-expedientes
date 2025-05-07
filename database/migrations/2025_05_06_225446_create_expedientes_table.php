@@ -20,7 +20,7 @@ return new class extends Migration
                 table: 'estatus',
                 column: 'id',
             )->cascadeOnDelete();
-            $table->foreignId('id_usuario_regstra')->constrained(
+            $table->foreignId('id_usuario_registra')->constrained(
                 table: 'users',
                 column: 'id',
             )->cascadeOnDelete();

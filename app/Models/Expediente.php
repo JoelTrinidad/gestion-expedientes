@@ -16,7 +16,7 @@ class Expediente extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id');
     }
 
     /**
@@ -24,6 +24,6 @@ class Expediente extends Model
      */
     public function estatus(): BelongsTo
     {
-        return $this->belongsTo(Estatus::class);
+        return $this->belongsTo(Estatus::class, 'id');
     }
 }

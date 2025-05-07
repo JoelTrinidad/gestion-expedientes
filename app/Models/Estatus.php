@@ -21,6 +21,6 @@ class Estatus extends Model
      */
     public function expedientes(): HasMany
     {
-        return $this->hasMany(Expediente::class);
+        return $this->hasMany(Expediente::class, 'estatus_id', 'id');
     }
 }
