@@ -13,7 +13,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::resource('/dashboard/expedientes', ExpedienteController::class);
+Route::middleware('auth')->resource('/dashboard/expedientes', ExpedienteController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
